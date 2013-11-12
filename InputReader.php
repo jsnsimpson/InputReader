@@ -95,6 +95,7 @@ class InputReader {
 	 *
 	 * Returns a number of lines specified from the start of the file OR
 	 * from the last line requested via getNextLine().
+	 * TODO: Finish this method!
 	 * @return array - $lines
 	 */
 	public function getNextXLines($x) {
