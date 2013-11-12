@@ -2,6 +2,10 @@
 
 /**
  * Class for reading input from STDIN
+ * This has been developed to assist in 
+ * saving time when solving online puzzles
+ * from the codechef site. It may be modified
+ * to cater for other uses.
  * @author Jason Simpson
  */
 class InputReader {
@@ -15,11 +19,19 @@ class InputReader {
 		$this->getAllLines();
 	}
 	
+	/**
+	 * Returns the first line of input found in the file passed in from 
+	 * the command line.
+	 * @return String - first line of input from the file 
+	 */
 	public function getFirstLine() {
 		$input = fgets(STDIN);
 		return $input;
 	}
-	//converts the line inputs to 
+	
+	/*
+	 * returns all lines
+	 */ 
 	private function getAllLines() {
 		$line = 0;
 		$lines = array();
@@ -38,7 +50,11 @@ class InputReader {
 		$this->lines = $lines;
 	}
 	
-	
+	/**
+	 * Should be used in conjunction with getNextLine method
+	 * to allow easy iteration.
+	 * @return boolean - is there another line available?
+	 */
 	public function hasNext() {
 	
 		if($this->index < count($this->lines)) {
@@ -47,7 +63,11 @@ class InputReader {
 		return false;
 	}
 	
-	//Returns the next line in the list
+	/**
+	 *
+	 * returns the next line or null if none found.
+	 * @return String $rv
+	 */
 	public function getNextLine() {
 		$rv = null;
 		if(($this->index) < count($this->lines)) {
@@ -59,6 +79,10 @@ class InputReader {
 		return $rv;
 	}
 	
+	/**
+	 * Get and return a specific line or null if line number
+	 * is not found
+	 */
 	public function getLine($lineNo) {
 		if($this->lines[$lineNo] != null) {
 			return $this->lines[$lineNo];
@@ -67,7 +91,12 @@ class InputReader {
 		}
 	}
 	
-	
+	/**
+	 *
+	 * Returns a number of lines specified from the start of the file OR
+	 * from the last line requested via getNextLine().
+	 * @return array - $lines
+	 */
 	public function getNextXLines($x) {
 		$line = 0;
 		$lines = array();
