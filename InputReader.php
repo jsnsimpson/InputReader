@@ -14,7 +14,7 @@ class InputReader {
 	private $lines;
 	private $file;
 	const STDIO = "stdio";
-	const FILE = "file";
+	const ARGS = "args";
 	
 	
 	public function InputReader($mode, $filename="input.txt") {
@@ -28,6 +28,11 @@ class InputReader {
 		$this->getAllLines();
 	}
 	
+	/**
+     * Returns the first line of input found in the file passed in from 
+     * the command line.
+     * @return String - first line of input from the file 
+     */
 	public function getFirstLine() {
 		$input = fgets($this->file);
 		return $input;
@@ -38,20 +43,17 @@ class InputReader {
 		$lines = array();
 		//ignore line 1
 		while($input = fgets($this->file)) {
-			
-			$ex = explode(" ", $input);
-			if(count($ex) > 1) {
-				$lines[$line] = $ex;	
-			} else {
-				$lines[$line] = $input;
-			}
-			
+			$lines[$line] = $input;
 			$line++;
 		}
 		$this->lines = $lines;
 	}
 	
-	
+	/**
+	 * Should be used in conjunction with getNextLine method
+	 * to allow easy iteration.
+	 * @return boolean - is there another line available?
+	 */
 	public function hasNext() {
 	
 		if($this->index < count($this->lines)) {
@@ -60,7 +62,11 @@ class InputReader {
 		return false;
 	}
 	
-	//Returns the next line in the list
+	/**
+	 *
+	 * returns the next line or null if none found.
+	 * @return String $rv
+	 */
 	public function getNextLine() {
 		$rv = null;
 		if(($this->index) < count($this->lines)) {
@@ -72,6 +78,25 @@ class InputReader {
 		return $rv;
 	}
 	
+	/**
+	 * Gets the next line as an array were the values are separated by the 
+	 * $delimeter that is passed in
+	 * 
+	 * @param $delimeter - split the line on a value (default is a space " ").
+	 */
+	public function getNextLineAsArray($delimeter=" ") {
+		$val = $this->getNextLine();
+		$arr = explode($delimeter, $val);
+		
+		return $arr;
+
+	}
+	
+	/**
+	 * Get and return a specific line or null if line number
+	 * is not found
+	 * @param $lineNo the line number to be retrieved
+	 */
 	public function getLine($lineNo) {
 		if($this->lines[$lineNo] != null) {
 			return $this->lines[$lineNo];
@@ -100,3 +125,4 @@ class InputReader {
 		return $lines;
 	}
 }
+
