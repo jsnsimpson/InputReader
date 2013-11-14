@@ -14,7 +14,7 @@ class InputReader {
 	private $lines;
 	private $file;
 	const STDIO = "stdio";
-	const ARGS = "args";
+	const FILE = "file";
 	
 	
 	public function InputReader($mode, $filename="input.txt") {
