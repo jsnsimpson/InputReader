@@ -12,31 +12,32 @@ class InputReader {
 	
 	private $index;
 	private $lines;
+	private $file;
+	const STDIO = "stdio";
+	const ARGS = "args";
 	
-	public function InputReader() {
+	
+	public function InputReader($mode, $filename="input.txt") {
 		$this->index = 0;
 		$this->lines = array();
+		if($mode == self::STDIO) {
+			$this->file = STDIN;
+		} else {
+			$this->file = fopen($filename, "r");
+		}
 		$this->getAllLines();
 	}
 	
-	/**
-	 * Returns the first line of input found in the file passed in from 
-	 * the command line.
-	 * @return String - first line of input from the file 
-	 */
 	public function getFirstLine() {
-		$input = fgets(STDIN);
+		$input = fgets($this->file);
 		return $input;
 	}
-	
-	/*
-	 * returns all lines
-	 */ 
+	//converts the line inputs to 
 	private function getAllLines() {
 		$line = 0;
 		$lines = array();
 		//ignore line 1
-		while($input = fgets(STDIN)) {
+		while($input = fgets($this->file)) {
 			
 			$ex = explode(" ", $input);
 			if(count($ex) > 1) {
@@ -50,11 +51,7 @@ class InputReader {
 		$this->lines = $lines;
 	}
 	
-	/**
-	 * Should be used in conjunction with getNextLine method
-	 * to allow easy iteration.
-	 * @return boolean - is there another line available?
-	 */
+	
 	public function hasNext() {
 	
 		if($this->index < count($this->lines)) {
@@ -63,11 +60,7 @@ class InputReader {
 		return false;
 	}
 	
-	/**
-	 *
-	 * returns the next line or null if none found.
-	 * @return String $rv
-	 */
+	//Returns the next line in the list
 	public function getNextLine() {
 		$rv = null;
 		if(($this->index) < count($this->lines)) {
@@ -79,10 +72,6 @@ class InputReader {
 		return $rv;
 	}
 	
-	/**
-	 * Get and return a specific line or null if line number
-	 * is not found
-	 */
 	public function getLine($lineNo) {
 		if($this->lines[$lineNo] != null) {
 			return $this->lines[$lineNo];
@@ -91,18 +80,12 @@ class InputReader {
 		}
 	}
 	
-	/**
-	 *
-	 * Returns a number of lines specified from the start of the file OR
-	 * from the last line requested via getNextLine().
-	 * TODO: Finish this method! 
-	 * @return array - $lines
-	 */
+	
 	public function getNextXLines($x) {
 		$line = 0;
 		$lines = array();
 		//ignore line 1
-		while($input = fgets(STDIN)) {
+		while($input = fgets($this->file)) {
 		
 			$ex = explode(" ", $input);
 			if(count($ex) > 1) {
